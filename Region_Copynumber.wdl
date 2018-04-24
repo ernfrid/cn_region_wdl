@@ -33,22 +33,24 @@ task Region_Copynumber {
 workflow Gather_Region_Coverage {
   # data inputs
   Array[File] cn_hist_roots
+  Array[String] sample_names
   File coordinates
   String hist_root_suffix
 
   # system inputs
   Int preemptible_tries
 
-  scatter (cn_hist_root in cn_hist_roots) {
+  scatter (i in range(length(cn_hist_roots))) {
+    File cn_hist_root = cn_hist_roots[i]
+    String sample_name = sample_names[i]
 
-    String basename = sub(sub(cn_hist_root, "^.*/", ""), hist_root_suffix + "$", "")
     Float disk_needed = size(cn_hist_root, "GB") + 1
 
     call Region_Copynumber {
       input:
       input_cn_hist_root = cn_hist_root,
       coordinates = coordinates,
-      basename = basename,
+      basename = sample_name,
       disk_size = ceil(disk_needed),
       preemptible_tries = preemptible_tries
     }
