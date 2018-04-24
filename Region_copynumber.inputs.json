@@ -1,0 +1,11 @@
+{
+  "##_COMMENT1": "DATA INPUTS",
+  "Gather_Region_Coverage.cn_hist_roots": [
+  ],
+  "Gather_Region_Coverage.sample_names": [
+  ],
+  "Gather_Region_Coverage.coordinates": "gs://ccdg-sv-processing/complex/complex_regions.windows.cnvnator.txt",
+
+  "##_COMMENT3": "SYSTEM PARAMETERS",
+  "Gather_Region_Coverage.preemptible_tries": 3
+}
