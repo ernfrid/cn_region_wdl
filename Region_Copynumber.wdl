@@ -5,7 +5,7 @@ task Region_Copynumber {
   Int disk_size
   Int preemptible_tries
 
-  command {
+  command<<<
     echo -e "SNP\tChromosome\tPhysicalPosition\t${basename}" > "${basename}.cn"
     cat ${coordinates} \
       | cnvnator -root ${input_cn_hist_root} -genotype 100 \
@@ -15,7 +15,7 @@ task Region_Copynumber {
       >> "${basename}.cn"
 
     bgzip "${basename}.cn"
-  }
+  >>>
 
   runtime {
     docker: "halllab/cnvnator@sha256:c41e9ce51183fc388ef39484cbb218f7ec2351876e5eda18b709d82b7e8af3a2"
@@ -35,7 +35,6 @@ workflow Gather_Region_Coverage {
   Array[File] cn_hist_roots
   Array[String] sample_names
   File coordinates
-  String hist_root_suffix
 
   # system inputs
   Int preemptible_tries
@@ -56,6 +55,6 @@ workflow Gather_Region_Coverage {
     }
   }
   output {
-      Region_Copynumber.*
+      Array[File] output_cns = Region_Copynumber.output_cn
   }
 }
