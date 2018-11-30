@@ -6,6 +6,7 @@ task Region_Copynumber {
   Int preemptible_tries
 
   command<<<
+    set -eo pipefail
     echo -e "SNP\tChromosome\tPhysicalPosition\t${basename}" > "${basename}.cn"
     cat ${coordinates} \
       | cnvnator -root ${input_cn_hist_root} -genotype 100 \
@@ -20,7 +21,7 @@ task Region_Copynumber {
   runtime {
     docker: "halllab/cnvnator@sha256:c41e9ce51183fc388ef39484cbb218f7ec2351876e5eda18b709d82b7e8af3a2"
     cpu: "1"
-    memory: "1 GB"
+    memory: "3.75 GiB"
     disks: "local-disk " + disk_size + " HDD"
     preemptible: preemptible_tries
   }
